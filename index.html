@@ -3,31 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title>Belly Button Biodiversity</title>
+    <link rel="icon" type="image/x-icon" href="static/img/bacteria.png">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/custom.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
 </head>
 <body class="bg-body">
+    <div class="container-fluid g-0 g-lg-4">
+
+    </div>
     <div class="container-fluid g-0 g-lg-4 mt-4">
         <div class="row">
-            <div class="col-4">
-                <div class="card border-primary">
-                    <div class="card-body">
-                        <p class="card-text">
-                            test test test test test test test testtest test test testtest test test testtest test test testtest test test test
-                        </p>
+            <div class="col-lg-3">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="individual-select" class="form-label">Test Subject ID:</label>
+                            <select class="form-select" id="individual-select"  data-form-type="other">
+                                <!--D3 options go here-->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <div class="card bg-light">
+                            <h5 class="card-header">Participant Info</h5>
+                            <div id="subject-info" class="card-body">
+                                <!--Demographic info about test subject -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-8">
-                <div class="card border-primary">
+            <div class="col-lg-9 mt-4 mt-lg-0">
+                <div class="card bg-light">
                     <div class="card-body">
-                        <div id="plot" class=""></div>
+                        <div id="plot" class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus assumenda blanditiis doloremque dolorum eos est fugiat in ipsum itaque nesciunt nostrum omnis, porro, quis, repudiandae sed sequi sunt tempora temporibus? Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consectetur corporis dignissimos eaque earum exercitationem laudantium magnam modi nesciunt provident! Autem deserunt doloribus eligendi labore nobis! Eveniet omnis possimus rem! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum eum exercitationem facere id laudantium molestiae quod tenetur veniam, vero voluptate. Consectetur cupiditate eveniet iste, magnam mollitia nobis possimus ullam veritatis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae fugiat necessitatibus, neque nulla possimus provident quas sed tempore voluptatum. Accusamus aliquid commodi error itaque libero modi mollitia totam velit voluptate? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus quisquam reprehenderit vel! Alias, aliquam vitae? Ab alias commodi, doloremque earum error, esse eveniet expedita, impedit iste odio perspiciatis rem voluptatum! Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab accusantium amet, animi architecto dolorum ducimus eos in ipsam nisi optio provident similique voluptatibus? Laboriosam pariatur reiciendis temporibus totam voluptas? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam dolore incidunt inventore ipsa magnam veniam. Beatae consectetur, cum enim ipsam laudantium molestiae quia tempore? Accusamus consectetur nobis numquam provident! Aperiam.</div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+
         </div>
     </div>
     <script src="static/js/app.js"></script>
