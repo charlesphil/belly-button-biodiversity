@@ -23,6 +23,7 @@ dataset.then(data => {
 // Update when value of select menu changes
 selectMenu.on("change", updatePlotly);
 
+
 // Function that updates the participant information and plots
 function updatePlotly() {
     // Get value of select menu
@@ -49,26 +50,41 @@ function updatePlotly() {
         }
 
         // Remove any existing children in the plot card
-        d3.select("#plot").selectAll("*").remove();
+        d3.select("#bar-plot").selectAll("*").remove();
+        d3.select("#bubble-plot").selectAll("*").remove();
 
-        // Update plots with data
+        // Get data for plots
         let sampleData = data["samples"].filter(item => (item["id"] === idNum))[0];
-        console.log(sampleData);
-        let y = sampleData["otu_ids"].slice(0, 10).map(ids => `OTU ${String(ids)}`).reverse();
-        console.log(y);
-        let x = sampleData["sample_values"].slice(0, 10).reverse();
-        console.log(x);
-        let hovertext = sampleData["otu_labels"].slice(0, 10).reverse();
-        console.log(hovertext);
+        let otuIds = sampleData["otu_ids"];
+        let values = sampleData["sample_values"];
+        let otuLabels = sampleData["otu_labels"];
 
-        let barColors = Array(y.length).fill("#d9e3f1");
-        barColors[barColors.length-1] = "#5b62f4";
-        console.log(barColors);
+        // Get top ten for bar chart
+        let otuIdsTen = otuIds.slice(0, 10).map(ids => `OTU ${String(ids)}`).reverse();
+        let valuesTen = values.slice(0, 10).reverse();
+        let otuLabelsTen = otuLabels.slice(0, 10).reverse();
 
-        let trace = {
-            x: x,
-            y: y,
-            text: hovertext,
+        // Create colors for bar chart markers (only the largest value should be blue)
+        let barColors = Array(otuIdsTen.length).fill("#d9e3f1");
+        barColors[barColors.length-1] = "#378dfc";
+
+        // Custom colorscale for bubble chart markers
+        let colorscale = [
+            ["0.0", "#e52527"],
+            ["0.5", "#d63384"],
+            ['1.0', '#6610f2']
+        ];
+
+        // Add responsiveness configuration for different screen widths
+        let config = {
+            responsive: true
+        }
+
+        // Draw bar chart
+        let barTrace = {
+            x: valuesTen,
+            y: otuIdsTen,
+            text: otuLabelsTen,
             type: "bar",
             orientation: "h",
             marker: {
@@ -76,12 +92,40 @@ function updatePlotly() {
             }
         };
 
-        let layout = {
+        let barLayout = {
             title: `Top Ten OTUs Present in Participant #${idNum}`,
             xaxis: {
                 title: "Sample Values"
             }
         };
-        Plotly.newPlot("plot", [trace], layout);
+
+        Plotly.newPlot("bar-plot", [barTrace], barLayout, config);
+
+        // Draw bubble chart
+        let bubbleTrace = {
+            x: otuIds,
+            y: values,
+            text: otuLabels,
+            mode: "markers",
+            marker: {
+                size: values,
+                sizeref: 2*Math.max(...values) / (90**2),
+                sizemode: "area",
+                color: otuIds,
+                colorscale: colorscale
+            }
+        };
+
+        let bubbleLayout = {
+            title: `OTUs Present in Participant #${idNum}`,
+            xaxis: {
+                title: "OTU ID"
+            },
+            yaxis: {
+                title: "Sample Values"
+            }
+        };
+
+        Plotly.newPlot("bubble-plot", [bubbleTrace], bubbleLayout, config);
     });
 }
