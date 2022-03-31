@@ -11,8 +11,19 @@
     <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
 </head>
 <body class="bg-body">
-    <div class="container-fluid g-0 g-lg-4">
-
+    <div class="container-fluid g-0 g-lg-4 mt-4">
+        <div class="row">
+            <div class="col">
+                <div class="card bg-white rounded">
+                    <div class="card-body text-center">
+                        <h1 class="m-0">
+                            <img src="static/img/icons8-bacteria-60.png" alt="banner icon">
+                            <span class="align-middle">Belly Button Biodiversity Dashboard</span>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="container-fluid g-0 g-lg-4 mt-4">
         <div class="row">
@@ -31,6 +42,15 @@
                             <h5 class="card-header">Participant Info</h5>
                             <div id="subject-info" class="card-body">
                                 <!--Demographic info about test subject -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <div class="card bg-white">
+                            <div class="card-body">
+                                <div id="gauge-chart">
+                                    <!--Plotly gauge chart goes here-->
+                                </div>
                             </div>
                         </div>
                     </div>

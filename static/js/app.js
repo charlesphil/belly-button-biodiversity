@@ -13,12 +13,11 @@ dataset.then(data => {
             .text(currentName)
             .attr("value", currentName);
     }
+    // Set first option in select menu as our active value
+    // and populate info
+    d3.select("option").property("selected", true);
+    updatePlotly();
 });
-
-// TODO: Set first id number in select menu as our active value and populate info
-
-
-// updatePlotly();
 
 // Update when value of select menu changes
 selectMenu.on("change", updatePlotly);
@@ -127,5 +126,29 @@ function updatePlotly() {
         };
 
         Plotly.newPlot("bubble-plot", [bubbleTrace], bubbleLayout, config);
+
+        // Draw gauge chart
+        let gaugeTrace = {
+            domain: {
+                x: [0,1],
+                y: [0,1]
+            },
+            value: subjectInfo["wfreq"],
+            title: {
+                text: "Scrubs per Week"
+            },
+            type: "indicator",
+            mode: "gauge"
+        }
+
+        let gaugeLayout = {
+            responsive: true,
+            margin: {
+                l: 0,
+                r: 0,
+            }
+        }
+
+        Plotly.newPlot("gauge-chart", [gaugeTrace], gaugeLayout, gaugeLayout)
     });
 }
