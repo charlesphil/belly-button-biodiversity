@@ -1,5 +1,5 @@
 // Load json file
-let dataset = d3.json("../../data/samples.json");
+let dataset = d3.json("./data/samples.json");
 
 // Select select menu
 let selectMenu = d3.select("#individual-select");
