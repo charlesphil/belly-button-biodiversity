@@ -44,9 +44,12 @@ function updatePlotly() {
         for (const key in subjectInfo) {
             subjectCard
                 .append("p")
-                .text(`${key}: ${subjectInfo[key]}`)
-                .attr("class", "card-text");
+                .text(`${key}: ${subjectInfo[key]}`);
         }
+
+        // Select last p tag in subject-info div and remove margins
+        subjectCard.select(`p:nth-child(${Object.keys(subjectInfo).length})`)
+            .attr("class", "m-0");
 
         // Remove any existing children in the plot card
         d3.select("#bar-plot").selectAll("*").remove();
@@ -83,22 +86,38 @@ function updatePlotly() {
         let barTrace = {
             x: valuesTen,
             y: otuIdsTen,
-            text: otuLabelsTen,
             type: "bar",
             orientation: "h",
             marker: {
                 color: barColors
+            },
+            hoverinfo: "x+y+text",
+            hovertext: otuLabelsTen,
+            hoverlabel: {
+                font: {
+                    family: "Nunito"
+                }
             }
         };
 
         let barLayout = {
-            title: `Top Ten OTUs Present in Participant #${idNum}`,
+            title: `Top Ten OTUs in Subject #${idNum}`,
             xaxis: {
                 title: "Sample Values"
+            },
+            font: {
+                family: "Nunito",
+                color: "#7b8ab8"
             }
         };
 
         Plotly.newPlot("bar-plot", [barTrace], barLayout, config);
+
+        // Get top most ytick and change font and font color to match bar
+        let barTickLength = d3.selectAll("#bar-plot .ytick")["_groups"][0].length;
+        let bigTick = d3.select("#bar-plot").select(`.ytick:nth-child(${barTickLength})`);
+        let bigTickText = bigTick.select("text");
+        bigTickText.attr("style", "font-family: Nunito; font-size: 16px; fill: #378dfc");
 
         // Draw bubble chart
         let bubbleTrace = {
@@ -112,43 +131,76 @@ function updatePlotly() {
                 sizemode: "area",
                 color: otuIds,
                 colorscale: colorscale
+            },
+            hoverlabel: {
+                font: {
+                    family: "Nunito"
+                }
             }
         };
 
         let bubbleLayout = {
-            title: `OTUs Present in Participant #${idNum}`,
+            title: `OTUs Present in Subject #${idNum}`,
             xaxis: {
                 title: "OTU ID"
             },
             yaxis: {
                 title: "Sample Values"
+            },
+            font: {
+                family: "Nunito",
+                color: "#7b8ab8"
             }
         };
 
         Plotly.newPlot("bubble-plot", [bubbleTrace], bubbleLayout, config);
 
-        // Draw gauge chart
+        // BONUS
+
+        // Draw gauge
         let gaugeTrace = {
-            domain: {
-                x: [0,1],
-                y: [0,1]
-            },
+            type: "indicator",
+            mode: "gauge+number",
             value: subjectInfo["wfreq"],
             title: {
-                text: "Scrubs per Week"
+                text: "Belly Button<br>Washes per Week"
             },
-            type: "indicator",
-            mode: "gauge"
-        }
+            gauge: {
+                bar: {
+                    thickness: 0.33,
+                    color: "#e52527"
+                },
+                axis: {
+                    range: [null, 9],
+                    tickvals: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    visible: true,
+                    ticks: "inside"
+                },
+                steps: [
+                    {"range": [0, 1], "color": "#bed1e6"},
+                    {"range": [1, 2], "color": "#68cdbb"},
+                    {"range": [2, 3], "color": "#20c997"},
+                    {"range": [3, 4], "color": "#2ea6d3"},
+                    {"range": [4, 5], "color": "#66a9ff"},
+                    {"range": [5, 6], "color": "#adac6b"},
+                    {"range": [6, 7], "color": "#ffc107"},
+                    {"range": [7, 8], "color": "#fa9d6a"},
+                    {"range": [8, 9], "color": "#f479cc"},
+                ]
+            }
+        };
 
         let gaugeLayout = {
-            responsive: true,
             margin: {
-                l: 0,
-                r: 0,
+                l: 10,
+                r: 10,
+            },
+            font: {
+                family: "Nunito",
+                color: "#7b8ab8"
             }
         }
 
-        Plotly.newPlot("gauge-chart", [gaugeTrace], gaugeLayout, gaugeLayout)
+        Plotly.newPlot("gauge-chart", [gaugeTrace], gaugeLayout, config)
     });
 }
